@@ -5,7 +5,7 @@ var calc = new Calculator(inputWrite, inputRes);
 const calcWrite = (e) => calc.add_value(e);
 const calcDel = () => calc.del() & calc.simpleEval();
 
-const calcRes = () => calc.Eval();
+const calcRes = () => calc.Eval() & calc.vibrate(100);
 const calcRes2 = () => calc.simpleEval();
 
 let del_btn = document.getElementById('del');
@@ -32,7 +32,7 @@ del_btn2.onmouseup = function() {
 let btns = document.querySelectorAll("button");
 for (let i = 0; i < btns.length; i++) {
     btns[i].addEventListener("click", () => {
-        inputWrite.scroll(10000, 0)
+        inputWrite.scroll(1000000, 0)
     })
 }
 
@@ -51,6 +51,8 @@ let shift = document.getElementById('shift');
 
 /** FUNCTION TO CHANGE TO SCIENTIFIC SYMBOLS **/
 right.onclick = function(e) {
+    calc.vibrate(100);
+    
     norm.style.transform = "scale(0.5, 0.5)";
     norm.style.opacity = 0;
     setTimeout(function() {
@@ -65,6 +67,8 @@ right.onclick = function(e) {
 
 /** FUNCTION TO CHANGE TO NORMAL SYMBOLS **/
 left.onclick = function(e) {
+    calc.vibrate(100);
+    
     sci.style.transform = "scale(0.5, 0.5)";
     sci.style.opacity = 0;
     setTimeout(function() {
@@ -79,16 +83,43 @@ left.onclick = function(e) {
 
 /** SHIFT FUNCTION TO CHANGE SOME SCIENTIFIC BUTTONS **/
 let shift_click = 0;
+
+/** SELECT SOME SCIENTIFIC BUTTONS **/
+let root = document.getElementById('root');
+let frac = document.getElementById('frac');
+let log = document.getElementById('log');
+let sin = document.getElementById('sin');
+let cos = document.getElementById('cos');
+let tan = document.getElementById('tan');
+
+
+if (tan.innerHTML === "tan") 
+{
+    // log function
+    log.onclick = () => {
+        inputWrite.value += "log(";
+    }
+    // sin function 
+    sin.onclick = () => {
+        inputWrite.value += "sin(";
+    }
+    // cos function 
+    cos.onclick = () => {
+        inputWrite.value += "cos(";
+    }
+    // tan function 
+    tan.onclick = () => {
+        inputWrite.value += "tan(";
+    }
+    // square root function 
+    root.onclick = () => {
+        inputWrite.value += "√(";
+    }
+}
+    
+    
 shift.onclick = function() {
-    /** SELECT SOME SCIENTIFIC BUTTONS **/
-    let root = document.getElementById('root');
-    let frac = document.getElementById('frac');
-    let log = document.getElementById('log');
-    let sin = document.getElementById('sin');
-    let cos = document.getElementById('cos');
-    let tan = document.getElementById('tan');
-    
-    
+    calc.vibrate(100);
     if (shift_click === 0) 
     {
         // style
@@ -107,6 +138,29 @@ shift.onclick = function() {
         root.innerHTML = '³√';
         frac.innerHTML = 'a.b';
         shift_click = 1;
+        
+        // log function
+        log.onclick = () => {
+            (inputWrite.value !== "") 
+                ? inputWrite.value += "×(10^"
+                : inputWrite.value = "10^";
+        }
+        // sin function 
+        sin.onclick = () => {
+            inputWrite.value += "asin(";
+        }
+        // cos function 
+        cos.onclick = () => {
+            inputWrite.value += "acos(";
+        }
+        // tan function
+        tan.onclick = () => {
+            inputWrite.value += "atan(";
+        }
+        // cube root function
+        root.onclick = () => {
+            inputWrite.value += "³√(";
+        }
     }
     else 
     {

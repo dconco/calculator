@@ -1,0 +1,25 @@
+{
+  "name": "scientific-calculator",
+  "version": "1.0.0",
+  "description": "Scientific Calculator developed by Dave Conco to improve a way of Calculations and adding more updates",
+  "main": "src/script.js",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dconco/calculator.git"
+  },
+  "keywords": [
+    "scientific",
+    "calculator",
+    "daveconco",
+    "simple"
+  ],
+  "author": "Dave Conco, Samuel Otp",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dconco/calculator/issues"
+  },
+  "homepage": "https://github.com/dconco/calculator#readme"
+}

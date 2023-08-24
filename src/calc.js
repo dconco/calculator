@@ -5,6 +5,13 @@ class Calculator {
         this.values = "";
     }
     
+    vibrate(num) {
+        // To check that is vibration API supported
+        if (navigator.vibrate) {
+            window.navigator.vibrate(num);
+        }
+    }
+
     add_value(args) {
         this.values = args;
         this.calc.value += this.values;
@@ -19,6 +26,7 @@ class Calculator {
         
         if (val === "" && this.calc.placeholder !== "0") {
             this.calc.placeholder = 0;
+            this.vibrate(200);
         } else {
             this.calc.placeholder = "";
         }
@@ -29,7 +37,7 @@ class Calculator {
         var inputRes = this.calc_res;
         
         try {
-            "use strict";
+            //"use strict";
             
             let newRes = inputWrite.value.toString();
             while (newRes[0] === '0') {
@@ -37,17 +45,25 @@ class Calculator {
             }
             
             let res = newRes;
+            // match times 
             if (inputWrite.value.match("×")) {
                 res = res.replaceAll("×", "*");
             }
+            // match divide 
             if (inputWrite.value.match("÷")) {
                 res = res.replaceAll("÷", "/")
             }
+            // match power 
             if (inputWrite.value.match("^")) {
                 res = res.replaceAll("^", "**")
             }
+            // match power 2 
             if (inputWrite.value.match("²")) {
                 res = res.replaceAll("²", "**2")
+            }
+            // match cos 
+            while ((let match = (/cos/g).exec(res)) != null) {
+                console.log("match found at " + match.index);
             }
             
             inputRes.value = eval(res) == undefined 

@@ -1,11 +1,59 @@
+/** OPENjs.
+* -v1.0.0
+* SCIENTIFIC CALCULATOR VERSION 1.0.0 DEVELOPED BY DAVE CONCO & SAMUEL OTP.
+* DEVELOPED FROM SCRATCH
+* CODE MINIFIED FOR SECURITY
+* CONTACT US FOR ORIGINAL CODES ON GITHUB
+* SEE README.MD FILE
+*/
+import Calculator from "./calc.js";
+
 var inputWrite = document.getElementById('input_write');
 var inputRes = document.getElementById('input_res');
-var calc = new Calculator(inputWrite, inputRes);
+let rad = document.getElementById('rad');
+let rad_div = document.getElementById('rad-div');
+rad_div.innerHTML = "DEG";
 
-const calcWrite = (e) => calc.add_value(e);
-const calcDel = () => calc.del() & calc.simpleEval();
+/* FUNCTION TO ADD HEADER LINKS */
+document.head.innerHTML += ('<link rel="stylesheet" href="style.css"/>');
 
-const calcRes = () => calc.Eval() & calc.vibrate(100);
+inputWrite.addEventListener("input", () => calcRes2());
+
+/* SELECT ALL HTML ELEMENTS */
+let buttons = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '^', '÷', '×', '-', '+', '/', '.', '%', '!', 'π', 'e', '²', '(', ')'];
+for (let i = 0; i < buttons.length; i++) {
+    let btns = document.getElementById(`${buttons[i]}`);
+    btns.onclick = () => calcWrite(`${buttons[i]}`);
+}
+document.getElementById('solve').onclick = () => calcRes();
+document.getElementById('solve2').onclick = () => calcRes();
+
+var calc = new Calculator(inputWrite, inputRes, rad_div);
+
+// write to input function 
+const calcWrite = (e) => {
+    calc.add_value(e);
+    rad_div.style.display = 'none';
+}
+
+// delete function 
+const calcDel = () => {
+    calc.del() & calc.simpleEval();
+    rad_div.style.display = 'none';
+}
+
+// result function 
+const calcRes = () => {
+    calc.Eval();
+    calc.vibrate(100);
+    if (rad.innerHTML == 'Deg') {
+        rad_div.innerHTML = 'RAD';
+        rad_div.style.display = 'block';
+    } else {
+        rad_div.innerHTML = 'DEG';
+        rad_div.style.display = 'block';
+    }
+}
 const calcRes2 = () => calc.simpleEval();
 
 let del_btn = document.getElementById('del');
@@ -13,8 +61,11 @@ let del_btn2 = document.getElementById('del2');
 var int = '';
 
 /* NORMAL BUTTONS DELETE */
+del_btn.onclick = () => calcDel();
+del_btn2.onclick = () => calcDel();
+
 del_btn.onmouseover = function() {
-    int = setInterval(() => calcDel(), 300);
+    int = setInterval(() => calcDel(), 200);
 }
 del_btn.onmouseup = function() {
     clearInterval(int);
@@ -22,7 +73,7 @@ del_btn.onmouseup = function() {
 
 /* SCIENTIFIC BUTTONS DELETE */
 del_btn2.onmouseover = function() {
-    int = setInterval(() => calcDel(), 300);
+    int = setInterval(() => calcDel(), 200);
 }
 del_btn2.onmouseup = function() {
     clearInterval(int);
@@ -35,12 +86,6 @@ for (let i = 0; i < btns.length; i++) {
         inputWrite.scroll(1000000, 0)
     })
 }
-
-const redirect = (e) =>
-    e === 'dave' 
-        ? window.location.href = 'https://github.com/dconco'
-        : window.location.href = 'https://github.com/dconco';
-
 
 /** TOGGLE SCIENTIFIC SYMBOLS**/
 let sci = document.getElementById('sci');
@@ -81,124 +126,114 @@ left.onclick = function(e) {
     }, 300);
 }
 
+// SCIENTIFIC FUNCTIONS EXECUTE
+rad.onclick = function() {
+    if (rad.innerHTML == 'Rad') {
+        rad.innerHTML = 'Deg';
+        rad_div.innerHTML = 'RAD';
+    } else {
+        rad.innerHTML = 'Rad';
+        rad_div.innerHTML = 'DEG';
+    }
+    rad_div.style.display = 'block';
+}
+
 /** SHIFT FUNCTION TO CHANGE SOME SCIENTIFIC BUTTONS **/
-let shift_click = 0;
+var shift_div = document.getElementById("shift-div");
 
 /** SELECT SOME SCIENTIFIC BUTTONS **/
-let root = document.getElementById('root');
-let frac = document.getElementById('frac');
-let log = document.getElementById('log');
-let sin = document.getElementById('sin');
-let cos = document.getElementById('cos');
-let tan = document.getElementById('tan');
+var root = document.getElementById('root');
+var frac = document.getElementById('frac');
+var log1 = document.getElementById('log');
+var sin1 = document.getElementById('sin');
+var cos1 = document.getElementById('cos');
+var tan1 = document.getElementById('tan');
+var ln1 = document.getElementById('ln');
 
+/* FUNCTION TO ADD FOOTER */
+const p_elem = document.createElement("p");
+const footer_elem = document.createElement("footer");
+const cont = document.getElementsByClassName('container');
 
-if (tan.innerHTML === "tan") 
+const content = 
+(`
+    Developed by 
+    <span onclick="window.location.href = 'https://github.com/dconco'">Dave Conco</span> & 
+    <span onclick="window.location.href = 'https://github.com/dconco'">Samuel Otp.</span>
+`);
+p_elem.innerHTML = content;
+footer_elem.append(p_elem);
+cont[0].after(p_elem);
+
+/* SHIFT CLICK FUNCTION */
+if (!shift_div.classList.contains("active"))
 {
     // log function
-    log.onclick = () => {
-        inputWrite.value += "log(";
-    }
+    log1.onclick = () => inputWrite.value += "log(";
     // sin function 
-    sin.onclick = () => {
-        inputWrite.value += "sin(";
-    }
+    sin1.onclick = () => inputWrite.value += "sin(";
     // cos function 
-    cos.onclick = () => {
-        inputWrite.value += "cos(";
-    }
+    cos1.onclick = () => inputWrite.value += "cos(";
     // tan function 
-    tan.onclick = () => {
-        inputWrite.value += "tan(";
-    }
+    tan1.onclick = () => inputWrite.value += "tan(";
+    // natural logarithm function 
+    ln1.onclick = () => inputWrite.value += "ln(";
     // square root function 
-    root.onclick = () => {
-        inputWrite.value += "√(";
-    }
+    root.onclick = () => inputWrite.value += "√(";
 }
     
     
 shift.onclick = function() {
     calc.vibrate(100);
-    if (shift_click === 0) 
+    shift_div.classList.toggle("active");
+    
+    if (shift_div.classList.contains("active")) 
     {
-        // style
-        sin.style.fontWeight = 'lighter';
-        cos.style.fontWeight = 'lighter';
-        tan.style.fontWeight = 'lighter';
-        sin.style.fontSize = '20px';
-        cos.style.fontSize = '20px';
-        tan.style.fontSize = '20px';
-        
         // change 
-        log.innerHTML = '10x';
-        sin.innerHTML = 'asin';
-        cos.innerHTML = 'acos';
-        tan.innerHTML = 'atan';
+        log1.innerHTML = '10<sup>x</sup>';
+        sin1.innerHTML = 'sin<sup>-1</sup>';
+        cos1.innerHTML = 'cos<sup>-1</sup>';
+        tan1.innerHTML = 'tan<sup>-1</sup>';
+        ln1.innerHTML = 'e<sup>x</sup>';
         root.innerHTML = '³√';
-        frac.innerHTML = 'a.b';
-        shift_click = 1;
-        
         // log function
-        log.onclick = () => {
+        log1.onclick = () => {
             (inputWrite.value !== "") 
                 ? inputWrite.value += "×(10^"
                 : inputWrite.value = "10^";
         }
-        // sin function 
-        sin.onclick = () => {
-            inputWrite.value += "asin(";
-        }
-        // cos function 
-        cos.onclick = () => {
-            inputWrite.value += "acos(";
-        }
-        // tan function
-        tan.onclick = () => {
-            inputWrite.value += "atan(";
-        }
-        // cube root function
-        root.onclick = () => {
-            inputWrite.value += "³√(";
-        }
+        // asin function 
+        sin1.onclick = () => inputWrite.value += "asin(";
+        // acos function 
+        cos1.onclick = () => inputWrite.value += "acos(";
+        // atan function
+        tan1.onclick = () => inputWrite.value += "atan(";
+        // acube root function
+        root.onclick = () => inputWrite.value += "³√(";
+        // exponential function
+        ln1.onclick = () => inputWrite.value += "exp(";
     }
     else 
     {
-        // styles 
-        sin.style.fontWeight = 'bolder';
-        cos.style.fontWeight = 'bolder';
-        tan.style.fontWeight = 'bolder';
-        sin.style.fontSize = '25px';
-        cos.style.fontSize = '25px';
-        tan.style.fontSize = '25px';
-        
         // change 
-        log.innerHTML = 'log';
-        sin.innerHTML = 'sin';
-        cos.innerHTML = 'cos';
-        tan.innerHTML = 'tan';
+        log1.innerHTML = 'log';
+        sin1.innerHTML = 'sin';
+        cos1.innerHTML = 'cos';
+        tan1.innerHTML = 'tan';
+        ln1.innerHTML = 'ln';
         root.innerHTML = '√';
-        frac.innerHTML = 'a/b';
-        shift_click = 0;
+        
+        // log function
+        log1.onclick = () => inputWrite.value += "log(";
+        // sin function 
+        sin1.onclick = () => inputWrite.value += "sin(";
+        // cos function 
+        cos1.onclick = () => inputWrite.value += "cos(";
+        // tan function 
+        tan1.onclick = () => inputWrite.value += "tan(";
+        // square root function 
+        ln1.onclick = () => inputWrite.value += "ln(";
+        // square root function 
+        root.onclick = () => inputWrite.value += "√(";
     }
 }
-
-
-// function POST() {
-//     let info = {
-//         name: "Dave",
-//         age: 15
-//     }
-//     
-//     axios({
-//         method: 'POST',
-//         url: 'http://localhost:8080/api/account/register',
-//         data: JSON.stringify(info)
-//     })
-//     .then(function (res) {
-//         alert(res.data);
-//     })
-//     .catch(function(err) {
-//         alert(err)
-//     });
-//}
